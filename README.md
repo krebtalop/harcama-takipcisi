@@ -24,3 +24,7 @@ Bu proje, ReactJS ve Vite kullanarak geliştirilmiş bir Harcama Takipçisi uygu
    ```
 
 Artık uygulamanız [http://localhost:5173](http://localhost:5173) adresinde çalışıyor olmalı!
+
+## Ekran Görüntüsü
+
+![Uygulama Ekran Resmi](UygulamaEkranResmi.png)
