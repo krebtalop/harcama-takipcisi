@@ -45,10 +45,12 @@ function TransactionItem({ transaction, onUpdate, onDelete }) {
   const catInfo = getCategoryInfo(transaction.type, transaction.category)
   const isIncome = transaction.type === 'income'
 
-  const formattedDate = new Date(transaction.createdAt).toLocaleDateString('tr-TR', {
+  const formattedDate = new Date(transaction.createdAt).toLocaleString('tr-TR', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
   })
 
   return (
