@@ -7,6 +7,14 @@ function TransactionItem({ transaction, onUpdate, onDelete }) {
   const [editDescription, setEditDescription] = useState(transaction.description)
   const [editAmount, setEditAmount] = useState(transaction.amount.toString())
   const [editCategory, setEditCategory] = useState(transaction.category)
+  const [editDate, setEditDate] = useState(() => {
+    const d = new Date(transaction.createdAt)
+    return d.getFullYear() + '-' +
+      String(d.getMonth() + 1).padStart(2, '0') + '-' +
+      String(d.getDate()).padStart(2, '0') + 'T' +
+      String(d.getHours()).padStart(2, '0') + ':' +
+      String(d.getMinutes()).padStart(2, '0')
+  })
   const inputRef = useRef(null)
 
   useEffect(() => {
@@ -26,6 +34,7 @@ function TransactionItem({ transaction, onUpdate, onDelete }) {
       description: trimmed,
       amount: parsedAmount,
       category: editCategory,
+      createdAt: new Date(editDate).toISOString(),
     })
     setIsEditing(false)
   }
@@ -34,6 +43,14 @@ function TransactionItem({ transaction, onUpdate, onDelete }) {
     setEditDescription(transaction.description)
     setEditAmount(transaction.amount.toString())
     setEditCategory(transaction.category)
+    const d = new Date(transaction.createdAt)
+    setEditDate(
+      d.getFullYear() + '-' +
+      String(d.getMonth() + 1).padStart(2, '0') + '-' +
+      String(d.getDate()).padStart(2, '0') + 'T' +
+      String(d.getHours()).padStart(2, '0') + ':' +
+      String(d.getMinutes()).padStart(2, '0')
+    )
     setIsEditing(false)
   }
 
@@ -93,19 +110,29 @@ function TransactionItem({ transaction, onUpdate, onDelete }) {
                   />
                 </div>
               </div>
-              <select
-                value={editCategory}
-                onChange={(e) => setEditCategory(e.target.value)}
-                className="px-3 py-1.5 rounded-lg border-2 border-primary-300
-                           focus:border-primary-500 outline-none text-gray-700
-                           bg-white cursor-pointer"
-              >
-                {CATEGORIES[transaction.type].map((cat) => (
-                  <option key={cat.key} value={cat.key}>
-                    {cat.icon} {cat.label}
-                  </option>
-                ))}
-              </select>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <select
+                  value={editCategory}
+                  onChange={(e) => setEditCategory(e.target.value)}
+                  className="flex-1 px-3 py-1.5 rounded-lg border-2 border-primary-300
+                             focus:border-primary-500 outline-none text-gray-700
+                             bg-white cursor-pointer"
+                >
+                  {CATEGORIES[transaction.type].map((cat) => (
+                    <option key={cat.key} value={cat.key}>
+                      {cat.icon} {cat.label}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="datetime-local"
+                  value={editDate}
+                  onChange={(e) => setEditDate(e.target.value)}
+                  className="flex-1 px-3 py-1.5 rounded-lg border-2 border-primary-300
+                             focus:border-primary-500 outline-none text-gray-700
+                             bg-white cursor-pointer"
+                />
+              </div>
             </div>
           ) : (
             <div className="flex flex-col gap-0.5">

@@ -54,9 +54,12 @@ function HomePage() {
   }), [transactions])
 
   const filteredTransactions = useMemo(() => {
-    if (filter === 'income') return transactions.filter((t) => t.type === 'income')
-    if (filter === 'expense') return transactions.filter((t) => t.type === 'expense')
-    return transactions
+    const sorted = [...transactions].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    )
+    if (filter === 'income') return sorted.filter((t) => t.type === 'income')
+    if (filter === 'expense') return sorted.filter((t) => t.type === 'expense')
+    return sorted
   }, [transactions, filter])
 
   return (
